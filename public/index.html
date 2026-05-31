@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ImmiNav — Compliance & business guidance for immigrant entrepreneurs</title>
+<title>ImmiNav -- Compliance & business guidance for immigrant entrepreneurs</title>
 <style>
-  :root { --bg:#FBF7F0; --ink:#1F1A17; --mute:#6B6259; --accent:#0F6CBD; --rule:#D6CFC4; --card:#FFFFFF; --warn:#fff8e6; --warn-rule:#d4a017; }
+  :root { --bg:#FBF7F0; --ink:#1F1A17; --mute:#6B6259; --accent:#0F6CBD; --rule:#D6CFC4; --card:#FFFFFF; --warn:#fff8e6; --warn-rule:#d4a017; --gold:#d4a017; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; line-height:1.55; }
-  header { background:var(--accent); color:#fff; padding:18px 24px; }
+  header { background:var(--accent); color:#fff; padding:18px 24px; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:10px; }
   header h1 { margin:0; font-size:22px; letter-spacing:.3px; }
   header p  { margin:4px 0 0; opacity:.94; font-size:13px; }
+  .trial { font-size:12px; padding:4px 10px; background:rgba(255,255,255,.18); border-radius:99px; letter-spacing:.3px; }
+  .trial.bonus { background:var(--gold); color:#1F1A17; font-weight:600; }
   main { max-width:840px; margin:24px auto; padding:0 20px; }
   .legal { background:var(--warn); border-left:4px solid var(--warn-rule); padding:10px 14px; margin-bottom:18px; font-size:13px; border-radius:0 6px 6px 0; color:#5a4400; }
   .legal strong { color:#4a3500; }
@@ -33,107 +35,149 @@
   .pill.conf-high   { background:#e9f5e9; color:#246b1f; }
   .term { background:#f4efe7; border-radius:6px; padding:6px 10px; margin:4px 0; font-size:13px; }
   .err { background:#fff3f0; border-left:4px solid #c44315; padding:10px 12px; color:#7a1f00; border-radius:0 6px 6px 0; }
+  .paywall { background:#fff8e6; border:1px solid var(--gold); border-radius:8px; padding:20px; margin-bottom:20px; }
+  .paywall h3 { margin:0 0 6px; color:#5a4400; text-transform:none; font-size:16px; }
+  .refer { background:#f4efe7; border:1px dashed var(--accent); border-radius:8px; padding:14px; margin-top:14px; }
+  .refer h3 { margin:0 0 6px; font-size:14px; color:var(--accent); text-transform:uppercase; letter-spacing:.5px; }
+  .refer-link { display:flex; gap:8px; margin-top:8px; }
+  .refer-link input { flex:1; background:#fff; font-family:monospace; font-size:13px; }
+  .refer-link button { background:var(--ink); }
+  .waitlist-form { display:flex; gap:8px; margin-top:10px; }
+  .waitlist-form input { flex:1; }
+  .waitlist-ok { color:#246b1f; font-weight:600; padding:8px 0; }
   footer { text-align:center; font-size:11px; color:var(--mute); padding:20px; border-top:1px solid var(--rule); margin-top:18px; }
   footer .tag { color:var(--accent); font-weight:600; }
 </style>
 </head>
 <body>
 <header>
-  <h1>ImmiNav</h1>
-  <p>Plain-language compliance &amp; business-formation guidance for immigrant entrepreneurs.</p>
+  <div>
+    <h1>ImmiNav</h1>
+    <p>Plain-language compliance &amp; business-formation guidance for immigrant entrepreneurs.</p>
+  </div>
+  <div id="trial-pill" class="trial">loading...</div>
 </header>
 <main>
-  <div class="legal"><strong>Important:</strong> This is general guidance, not legal advice. Consult a qualified attorney for your specific situation. Visa rules, tax rules, and state filings change — verify with the official source before you act.</div>
+  <div class="legal"><strong>Important:</strong> This is general guidance, not legal advice. Consult a qualified attorney for your specific situation. Visa rules, tax rules, and state filings change -- verify with the official source before you act.</div>
 
   <div class="card">
     <form id="f">
       <label for="q">Your question</label>
-      <textarea id="q" placeholder="Example: I have an H-1B visa and want to start an LLC for a side consulting business — can I, and what filings do I need in Indiana?" required></textarea>
+      <textarea id="q" placeholder="Example: I have an H-1B visa and want to start an LLC for a side consulting business -- can I, and what filings do I need in Indiana?" required></textarea>
       <p class="hint">Short and specific works best. Mention your state, visa status (if you'd like), and what stage you're at.</p>
 
       <div class="row" style="margin-top:14px;">
-        <div>
-          <label for="origin">Country of origin (optional)</label>
-          <input id="origin" placeholder="e.g. India">
-        </div>
-        <div>
-          <label for="state">US state (optional)</label>
-          <input id="state" placeholder="e.g. Indiana">
-        </div>
+        <div><label for="origin">Country of origin (optional)</label><input id="origin" placeholder="e.g. India"></div>
+        <div><label for="state">US state (optional)</label><input id="state" placeholder="e.g. Indiana"></div>
       </div>
       <div class="row" style="margin-top:12px;">
-        <div>
-          <label for="btype">Business type (optional)</label>
-          <input id="btype" placeholder="e.g. solo consulting, online store, food truck">
-        </div>
+        <div><label for="btype">Business type (optional)</label><input id="btype" placeholder="e.g. solo consulting, online store, food truck"></div>
         <div>
           <label for="stage">Stage</label>
           <select id="stage">
-            <option value="">— pick one —</option>
-            <option>researching</option>
-            <option>filed-llc</option>
-            <option>operating</option>
-            <option>scaling</option>
+            <option value="">-- pick one --</option>
+            <option>researching</option><option>filed-llc</option><option>operating</option><option>scaling</option>
           </select>
         </div>
       </div>
-
-      <div style="margin-top:18px;">
-        <button id="go" type="submit">Get guidance</button>
-      </div>
+      <div style="margin-top:18px;"><button id="go" type="submit">Get guidance</button></div>
     </form>
   </div>
   <div id="out"></div>
 </main>
 <footer>
-  Not legal advice. ImmiNav · <span class="tag">Building Shultz</span>
+  Not legal advice. ImmiNav &middot; <span class="tag">Building Shultz</span>
 </footer>
 <script>
 const esc = s => String(s == null ? '' : s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const out = document.getElementById('out');
+
+(function () {
+  const u = new URL(window.location.href);
+  const ref = u.searchParams.get('ref');
+  if (ref) { localStorage.setItem('in_ref_id', ref); u.searchParams.delete('ref'); window.history.replaceState({}, '', u.pathname + (u.search ? u.search : '')); }
+})();
+
+async function refreshMe() {
+  try {
+    const r = await fetch('/me'); const j = await r.json();
+    const pill = document.getElementById('trial-pill');
+    if (j.bonus_active) {
+      pill.className = 'trial bonus';
+      pill.textContent = 'Bonus active - unlimited until ' + (new Date(j.bonus_expires_at)).toLocaleDateString();
+    } else {
+      pill.className = 'trial';
+      pill.textContent = `${j.remaining}/${j.cap} free questions left`;
+    }
+  } catch (e) { /* ignore */ }
+}
+refreshMe();
+
+function renderRefer(extras, used, cap, bonus_active) {
+  let html = '<div class="refer">';
+  html += '<h3>Refer a friend &rarr; free week of unlimited access</h3>';
+  html += '<p style="margin:4px 0 8px;font-size:13px;color:var(--mute);">Share your link. When a friend uses ImmiNav for the first time, you both win.</p>';
+  html += '<div class="refer-link"><input id="ref-link" readonly value="' + esc(extras.referral_link) + '"><button type="button" onclick="navigator.clipboard.writeText(document.getElementById(\'ref-link\').value);this.textContent=\'Copied\';">Copy</button></div>';
+  if (bonus_active) html += '<p style="font-size:12px;color:#246b1f;margin-top:8px;"><strong>Your bonus is active.</strong> Unlimited questions until ' + (new Date(extras.bonus_expires_at)).toLocaleDateString() + '.</p>';
+  else html += '<p style="font-size:12px;color:var(--mute);margin-top:8px;">' + Math.max(0, cap - used) + ' of ' + cap + ' free questions remaining.</p>';
+  html += '</div>';
+  return html;
+}
+
+function renderPaywall(j) {
+  return '<div class="paywall">'
+    + '<h3>You\'ve used your ' + j.cap + ' free questions.</h3>'
+    + '<p>' + esc(j.message) + '</p>'
+    + '<form id="wf" class="waitlist-form" onsubmit="return submitWaitlist(event)">'
+    + '<input id="wf-email" type="email" placeholder="you@example.com" required>'
+    + '<button type="submit">Join waitlist</button></form>'
+    + '<div id="wf-result"></div>'
+    + (j.referral_link ? renderRefer({ referral_link: j.referral_link, bonus_expires_at: null }, j.used, j.cap, false) : '')
+    + '<div class="legal" style="margin-top:14px;">' + esc(j.disclaimer || '') + '</div>'
+    + '</div>';
+}
+
+async function submitWaitlist(e) {
+  e.preventDefault();
+  const email = document.getElementById('wf-email').value;
+  const r = await fetch('/waitlist', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email }) });
+  const j = await r.json();
+  document.getElementById('wf-result').innerHTML = j.ok ? '<div class="waitlist-ok">' + esc(j.message) + '</div>' : '<div class="err">' + esc(j.error) + '</div>';
+  return false;
+}
+
 document.getElementById('f').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('go');
   btn.disabled = true; btn.textContent = 'Thinking...';
-  out.innerHTML = '<div class="card">Reading your question and pulling together guidance — usually 5-12 seconds.</div>';
+  out.innerHTML = '<div class="card">Reading your question and pulling together guidance -- usually 5-12 seconds.</div>';
   const body = {
     question: document.getElementById('q').value,
     country_of_origin: document.getElementById('origin').value || null,
     us_state: document.getElementById('state').value || null,
     business_type: document.getElementById('btype').value || null,
-    stage: document.getElementById('stage').value || null
+    stage: document.getElementById('stage').value || null,
+    ref_id: localStorage.getItem('in_ref_id') || null
   };
   try {
     const r = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
     const j = await r.json();
+    if (r.status === 402) { out.innerHTML = renderPaywall(j); refreshMe(); return; }
     if (!j.ok) throw new Error(j.error || 'Request failed');
     let html = '<div class="card"><h2>Guidance</h2>';
     html += '<div style="margin-bottom:10px;"><span class="pill conf-' + esc(j.confidence||'medium') + '">Confidence: ' + esc(j.confidence||'medium') + '</span>';
-    html += '<span class="pill">Model: ' + esc(j.model) + '</span><span class="pill">' + (j.duration_ms/1000).toFixed(1) + 's</span></div>';
+    html += '<span class="pill">Model: ' + esc(j.model) + '</span><span class="pill">' + (j.duration_ms/1000).toFixed(1) + 's</span><span class="pill">' + j.used + '/' + j.cap + ' used</span></div>';
     html += '<p>' + esc(j.answer).replace(/\n\n+/g,'</p><p>') + '</p>';
-    if (j.next_steps && j.next_steps.length) {
-      html += '<h3>Next steps</h3><ul>';
-      j.next_steps.forEach(s => html += '<li>' + esc(s) + '</li>');
-      html += '</ul>';
-    }
-    if (j.documents_or_forms && j.documents_or_forms.length) {
-      html += '<h3>Documents / forms to know</h3><ul>';
-      j.documents_or_forms.forEach(s => html += '<li>' + esc(s) + '</li>');
-      html += '</ul>';
-    }
-    if (j.key_terms && j.key_terms.length) {
-      html += '<h3>Key terms</h3>';
-      j.key_terms.forEach(t => html += '<div class="term"><strong>' + esc(t.term) + ':</strong> ' + esc(t.plain_meaning) + '</div>');
-    }
-    if (j.scope_caveats && j.scope_caveats.length) {
-      html += '<h3>Where this answer narrows</h3><ul>';
-      j.scope_caveats.forEach(s => html += '<li>' + esc(s) + '</li>');
-      html += '</ul>';
-    }
+    if (j.next_steps && j.next_steps.length) { html += '<h3>Next steps</h3><ul>'; j.next_steps.forEach(s => html += '<li>' + esc(s) + '</li>'); html += '</ul>'; }
+    if (j.documents_or_forms && j.documents_or_forms.length) { html += '<h3>Documents / forms to know</h3><ul>'; j.documents_or_forms.forEach(s => html += '<li>' + esc(s) + '</li>'); html += '</ul>'; }
+    if (j.key_terms && j.key_terms.length) { html += '<h3>Key terms</h3>'; j.key_terms.forEach(t => html += '<div class="term"><strong>' + esc(t.term) + ':</strong> ' + esc(t.plain_meaning) + '</div>'); }
+    if (j.scope_caveats && j.scope_caveats.length) { html += '<h3>Where this answer narrows</h3><ul>'; j.scope_caveats.forEach(s => html += '<li>' + esc(s) + '</li>'); html += '</ul>'; }
     if (j.when_to_get_a_lawyer) html += '<div class="legal" style="margin-top:16px;"><strong>When to bring in a lawyer:</strong> ' + esc(j.when_to_get_a_lawyer) + '</div>';
+    html += renderRefer({ referral_link: j.referral_link, bonus_expires_at: j.bonus_expires_at }, j.used, j.cap, j.bonus_active);
     html += '<div class="legal" style="margin-top:14px;">' + esc(j.disclaimer) + '</div>';
     html += '</div>';
     out.innerHTML = html;
+    refreshMe();
   } catch (err) {
     out.innerHTML = '<div class="card err">Could not get guidance: ' + esc(err.message) + '</div>';
   } finally {

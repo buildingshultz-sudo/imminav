@@ -1,11 +1,12 @@
 {
   "name": "imminav",
-  "version": "0.1.0",
-  "description": "Plain-language compliance + business-formation guidance for immigrant entrepreneurs. NOT legal advice.",
+  "version": "0.2.0",
+  "description": "Plain-language compliance + business-formation guidance for immigrant entrepreneurs. NOT legal advice. Free trial + referral.",
   "main": "server.js",
   "scripts": { "start": "node server.js" },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",
+    "better-sqlite3": "^11.3.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2"
   },
