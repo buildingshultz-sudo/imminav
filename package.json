@@ -1,0 +1,14 @@
+{
+  "name": "imminav",
+  "version": "0.1.0",
+  "description": "Plain-language compliance + business-formation guidance for immigrant entrepreneurs. NOT legal advice.",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}

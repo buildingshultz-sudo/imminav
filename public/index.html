@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ImmiNav — Compliance & business guidance for immigrant entrepreneurs</title>
+<style>
+  :root { --bg:#FBF7F0; --ink:#1F1A17; --mute:#6B6259; --accent:#0F6CBD; --rule:#D6CFC4; --card:#FFFFFF; --warn:#fff8e6; --warn-rule:#d4a017; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; line-height:1.55; }
+  header { background:var(--accent); color:#fff; padding:18px 24px; }
+  header h1 { margin:0; font-size:22px; letter-spacing:.3px; }
+  header p  { margin:4px 0 0; opacity:.94; font-size:13px; }
+  main { max-width:840px; margin:24px auto; padding:0 20px; }
+  .legal { background:var(--warn); border-left:4px solid var(--warn-rule); padding:10px 14px; margin-bottom:18px; font-size:13px; border-radius:0 6px 6px 0; color:#5a4400; }
+  .legal strong { color:#4a3500; }
+  .card { background:var(--card); border:1px solid var(--rule); border-radius:8px; padding:20px; margin-bottom:18px; }
+  label { display:block; font-weight:600; font-size:12px; margin-bottom:6px; color:var(--mute); text-transform:uppercase; letter-spacing:.5px; }
+  input, textarea, select { width:100%; padding:10px 12px; font-size:15px; border:1px solid var(--rule); border-radius:6px; font-family:inherit; background:#fff; }
+  textarea { min-height:120px; resize:vertical; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:560px) { .row { grid-template-columns:1fr; } }
+  button { background:var(--accent); color:#fff; border:0; padding:12px 22px; border-radius:6px; font-size:15px; font-weight:600; cursor:pointer; }
+  button:hover { background:#0a5599; }
+  button:disabled { opacity:.55; cursor:wait; }
+  .hint { font-size:12px; color:var(--mute); margin-top:4px; }
+  h2 { font-size:18px; margin:0 0 6px; color:var(--accent); }
+  h3 { margin:14px 0 6px; font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--mute); }
+  ul { margin:6px 0 0; padding-left:22px; }
+  .pill { display:inline-block; padding:2px 8px; background:#eaf3fb; border-radius:99px; font-size:11px; color:var(--accent); margin-right:4px; }
+  .pill.conf-low    { background:#fff3f0; color:#b54200; }
+  .pill.conf-medium { background:#fff8e6; color:#8a6200; }
+  .pill.conf-high   { background:#e9f5e9; color:#246b1f; }
+  .term { background:#f4efe7; border-radius:6px; padding:6px 10px; margin:4px 0; font-size:13px; }
+  .err { background:#fff3f0; border-left:4px solid #c44315; padding:10px 12px; color:#7a1f00; border-radius:0 6px 6px 0; }
+  footer { text-align:center; font-size:11px; color:var(--mute); padding:20px; border-top:1px solid var(--rule); margin-top:18px; }
+  footer .tag { color:var(--accent); font-weight:600; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ImmiNav</h1>
+  <p>Plain-language compliance &amp; business-formation guidance for immigrant entrepreneurs.</p>
+</header>
+<main>
+  <div class="legal"><strong>Important:</strong> This is general guidance, not legal advice. Consult a qualified attorney for your specific situation. Visa rules, tax rules, and state filings change — verify with the official source before you act.</div>
+
+  <div class="card">
+    <form id="f">
+      <label for="q">Your question</label>
+      <textarea id="q" placeholder="Example: I have an H-1B visa and want to start an LLC for a side consulting business — can I, and what filings do I need in Indiana?" required></textarea>
+      <p class="hint">Short and specific works best. Mention your state, visa status (if you'd like), and what stage you're at.</p>
+
+      <div class="row" style="margin-top:14px;">
+        <div>
+          <label for="origin">Country of origin (optional)</label>
+          <input id="origin" placeholder="e.g. India">
+        </div>
+        <div>
+          <label for="state">US state (optional)</label>
+          <input id="state" placeholder="e.g. Indiana">
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px;">
+        <div>
+          <label for="btype">Business type (optional)</label>
+          <input id="btype" placeholder="e.g. solo consulting, online store, food truck">
+        </div>
+        <div>
+          <label for="stage">Stage</label>
+          <select id="stage">
+            <option value="">— pick one —</option>
+            <option>researching</option>
+            <option>filed-llc</option>
+            <option>operating</option>
+            <option>scaling</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <button id="go" type="submit">Get guidance</button>
+      </div>
+    </form>
+  </div>
+  <div id="out"></div>
+</main>
+<footer>
+  Not legal advice. ImmiNav · <span class="tag">Building Shultz</span>
+</footer>
+<script>
+const esc = s => String(s == null ? '' : s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const out = document.getElementById('out');
+document.getElementById('f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('go');
+  btn.disabled = true; btn.textContent = 'Thinking...';
+  out.innerHTML = '<div class="card">Reading your question and pulling together guidance — usually 5-12 seconds.</div>';
+  const body = {
+    question: document.getElementById('q').value,
+    country_of_origin: document.getElementById('origin').value || null,
+    us_state: document.getElementById('state').value || null,
+    business_type: document.getElementById('btype').value || null,
+    stage: document.getElementById('stage').value || null
+  };
+  try {
+    const r = await fetch('/ask', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || 'Request failed');
+    let html = '<div class="card"><h2>Guidance</h2>';
+    html += '<div style="margin-bottom:10px;"><span class="pill conf-' + esc(j.confidence||'medium') + '">Confidence: ' + esc(j.confidence||'medium') + '</span>';
+    html += '<span class="pill">Model: ' + esc(j.model) + '</span><span class="pill">' + (j.duration_ms/1000).toFixed(1) + 's</span></div>';
+    html += '<p>' + esc(j.answer).replace(/\n\n+/g,'</p><p>') + '</p>';
+    if (j.next_steps && j.next_steps.length) {
+      html += '<h3>Next steps</h3><ul>';
+      j.next_steps.forEach(s => html += '<li>' + esc(s) + '</li>');
+      html += '</ul>';
+    }
+    if (j.documents_or_forms && j.documents_or_forms.length) {
+      html += '<h3>Documents / forms to know</h3><ul>';
+      j.documents_or_forms.forEach(s => html += '<li>' + esc(s) + '</li>');
+      html += '</ul>';
+    }
+    if (j.key_terms && j.key_terms.length) {
+      html += '<h3>Key terms</h3>';
+      j.key_terms.forEach(t => html += '<div class="term"><strong>' + esc(t.term) + ':</strong> ' + esc(t.plain_meaning) + '</div>');
+    }
+    if (j.scope_caveats && j.scope_caveats.length) {
+      html += '<h3>Where this answer narrows</h3><ul>';
+      j.scope_caveats.forEach(s => html += '<li>' + esc(s) + '</li>');
+      html += '</ul>';
+    }
+    if (j.when_to_get_a_lawyer) html += '<div class="legal" style="margin-top:16px;"><strong>When to bring in a lawyer:</strong> ' + esc(j.when_to_get_a_lawyer) + '</div>';
+    html += '<div class="legal" style="margin-top:14px;">' + esc(j.disclaimer) + '</div>';
+    html += '</div>';
+    out.innerHTML = html;
+  } catch (err) {
+    out.innerHTML = '<div class="card err">Could not get guidance: ' + esc(err.message) + '</div>';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Get guidance';
+  }
+});
+</script>
+</body>
+</html>
